@@ -48,6 +48,10 @@ router.get('/assets/list', (req, res) => {
 
 router.get('/assets/tokens/:network/addresses', (req, res) => {
   try {
+    const exists = fs.existsSync(path.join(__dirname, `blockchains/${req.params.network}/assets`));
+
+    if (!exists) return res.status(200).json({ result: [] });
+
     const result = fs.readdirSync(path.join(__dirname, `blockchains/${req.params.network}/assets`));
     return res.status(200).json({ result });
   } catch (error) {
